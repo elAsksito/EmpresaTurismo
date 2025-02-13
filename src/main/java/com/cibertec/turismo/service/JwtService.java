@@ -1,5 +1,7 @@
 package com.cibertec.turismo.service;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Date;
 import javax.crypto.SecretKey;
 import org.springframework.stereotype.Service;
@@ -12,7 +14,7 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class JwtService {
 
-    private static final String SECRET = "secretoSuperSegurosecretoSuperSegurosecretoSuperSeguro";
+    private static final String SECRET = Base64.getEncoder().encodeToString("secretoSuperSegurosecretoSuperSegurosecretoSuperSeguro".getBytes(StandardCharsets.UTF_8));
     private static final SecretKey SECRET_KEY = Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET));
 
     public String generateToken(String email) {

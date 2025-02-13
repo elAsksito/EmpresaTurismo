@@ -6,7 +6,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cibertec.turismo.model.DestinoTuristico;
 import com.cibertec.turismo.model.Reserva;
+import com.cibertec.turismo.model.Usuario;
 import com.cibertec.turismo.repository.DestinoTuristicoRepository;
 import com.cibertec.turismo.repository.ReservaRepository;
 import com.cibertec.turismo.repository.UsuarioRepository;
@@ -35,6 +37,15 @@ public class ReservaServiceImpl implements IReservaService{
         if (!destinoRepository.existsById(reserva.getDestino().getId())) {
             throw new RuntimeException("Destino turístico no encontrado.");
         }
+        
+        Usuario usuario = usuarioRepository.findById(reserva.getUsuario().getId())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        DestinoTuristico destino = destinoRepository.findById(reserva.getDestino().getId())
+                .orElseThrow(() -> new RuntimeException("Destino turístico no encontrado"));
+
+        reserva.setUsuario(usuario);
+        reserva.setDestino(destino);
         return reservaRepository.save(reserva);
     }
 
