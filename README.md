@@ -44,3 +44,6 @@ Ejecutar el siguiente comando para construir y desplegar el proyecto:
 ```sh
 docker-compose up --build
 ```
+
+## Configuración Adicional
+En la carpeta `configuration` se encuentran los archivos de preferencias para **Postman** y **SoapUI**, los cuales pueden ser importados para facilitar las pruebas de los servicios REST y SOAP.
