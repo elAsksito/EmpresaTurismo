@@ -1,0 +1,35 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: db
+    environment:
+      MYSQL_DATABASE: turismo_db
+      MYSQL_USER: theAsk
+      MYSQL_PASSWORD: elAllan!!12345
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    ports:
+      - "1234:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "db", "-u", "theAsk", "--password=elAllan!!12345"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+
+  app:
+    build: .
+    container_name: app
+    ports:
+      - "9999:9999"
+      - "9001:9001"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/turismo_db
+      SPRING_DATASOURCE_USERNAME: theAsk
+      SPRING_DATASOURCE_PASSWORD: elAllan!!12345
+
+volumes:
+  db-data:
