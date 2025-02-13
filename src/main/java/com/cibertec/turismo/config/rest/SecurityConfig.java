@@ -1,4 +1,4 @@
-package com.cibertec.turismo.config;
+package com.cibertec.turismo.config.rest;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
