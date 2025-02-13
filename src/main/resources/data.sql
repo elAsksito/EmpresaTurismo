@@ -1,3 +1,10 @@
+CREATE TABLE IF NOT EXISTS destinos_turisticos (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    descripcion TEXT,
+    ubicacion VARCHAR(255) NOT NULL
+);
+
 INSERT INTO destinos_turisticos (nombre, descripcion, ubicacion) VALUES
 ('Machu Picchu', 'Ciudadela inca ubicada en la región andina de Perú.', 'Cusco, Perú'),
 ('Gran Cañón', 'Impresionante garganta excavada por el río Colorado.', 'Arizona, EE.UU.'),
