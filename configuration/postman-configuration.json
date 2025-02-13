@@ -1,0 +1,348 @@
+{
+	"info": {
+		"_postman_id": "d9984a35-70fb-433d-b069-81d73044e250",
+		"name": "Proyecto Final",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29865199"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"user@email.com\",\r\n  \"password\": \"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9999/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9999",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"user@email.com\",\r\n  \"password\": \"1234\",\r\n  \"role\": \"USER\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9999/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9999",
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "usuarios",
+			"item": [
+				{
+					"name": "findById",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <token generado al loguearte>",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:9999/usuarios/<id a buscar>",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9999",
+							"path": [
+								"usuarios",
+								"<id a buscar>"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findByEmail",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <token generado al loguearte>",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:9999/usuarios/email/<email a buscar>",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9999",
+							"path": [
+								"usuarios",
+								"email",
+								"<email a buscar>"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "destinos",
+			"item": [
+				{
+					"name": "crear",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <token generado al loguearte>",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Machu Picchu\",\r\n  \"descripcion\": \"Una de las maravillas del mundo, ubicada en Perú.\",\r\n  \"ubicacion\": \"Cusco, Perú\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9999/destinos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9999",
+							"path": [
+								"destinos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listar",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <token generado al loguearte>",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:9999/destinos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9999",
+							"path": [
+								"destinos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "finById",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbkBlbWFpbC5jb20iLCJpYXQiOjE3Mzk0MDk2MzQsImV4cCI6MTczOTQ5NjAzNH0.AvtAuzXPrOZ9OkjFQPdVhoOsAZOrhUo94838XoraCp5tWUB9Vb61tyyJnf_Sx8hg",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:9999/destinos/<id a buscar>",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9999",
+							"path": [
+								"destinos",
+								"<id a buscar>"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "reservas",
+			"item": [
+				{
+					"name": "crear",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <token generado al loguearte>",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"usuario\": {\r\n    \"id\": 1\r\n  },\r\n  \"destino\": {\r\n    \"id\": 1\r\n  },\r\n  \"fechaReserva\": \"2025-03-15\",\r\n  \"estado\": \"PENDIENTE\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9999/reservas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9999",
+							"path": [
+								"reservas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reservasPorIdUsuario",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <token generado al loguearte>",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:9999/reservas/usuario/<id a buscar>",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9999",
+							"path": [
+								"reservas",
+								"usuario",
+								"<id a buscar>"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reservaPorId",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <token generado al loguearte>",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:9999/reservas/<id a buscar>",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9999",
+							"path": [
+								"reservas",
+								"<id a buscar>"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "actualizarReserva",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <token generado al loguearte como ADMIN>",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"estado\": \"COMPLETADA\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9999/reservas/<id a atualizar>",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9999",
+							"path": [
+								"reservas",
+								"<id a atualizar>"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
