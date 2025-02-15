@@ -18,7 +18,6 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @WebService(serviceName = "ReservaService")
@@ -70,9 +69,9 @@ public class ReservaWebService {
 
 
     @WebMethod
-    public String obtenerReservaPorId(Long id) {
-        Optional<Reserva> reserva = reservaService.obtenerReservaPorId(id);
-        return reserva.map(Object::toString).orElse("Reserva no encontrada.");
+    public Reserva obtenerReservaPorId(Long id) {
+    	return reservaService.obtenerReservaPorId(id)
+                .orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
     }
 
     @WebMethod
