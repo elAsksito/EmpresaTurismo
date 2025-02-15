@@ -27,7 +27,7 @@ public class DestinoTuristico {
 	@Size(min = 3, max = 100, message = "El nombre debe tener entre 3 y 100 caracteres.")
 	private String nombre;
 
-	@Size(max = 255, message = "La descripción no puede superar los 255 caracteres.")
+	@Size(max = 500, message = "La descripción no puede superar los 500 caracteres.")
 	private String descripcion;
 
 	@Column(nullable = false)

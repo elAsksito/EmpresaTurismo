@@ -28,8 +28,8 @@ public class SoapConfig {
     @Bean
     Endpoint authEndpoint() {
         Endpoint endpoint = Endpoint.create(SOAPBinding.SOAP11HTTP_BINDING, authWebService);
-        //endpoint.publish("http://0.0.0.0:9001/ws/auth");
-        endpoint.publish("http://localhost:9001/ws/auth");
+        endpoint.publish("http://0.0.0.0:9001/ws/auth");
+        //endpoint.publish("http://localhost:9001/ws/auth");
         return endpoint;
     }
 
@@ -37,8 +37,8 @@ public class SoapConfig {
     Endpoint usuarioEndpoint() {
         Endpoint endpoint = Endpoint.create(SOAPBinding.SOAP11HTTP_BINDING, usuarioWebService);
         endpoint.getBinding().setHandlerChain(Collections.singletonList(soapSecurityHandler));
-        //endpoint.publish("http://0.0.0.0:9001/ws/usuario");
-        endpoint.publish("http://localhost:9001/ws/usuario");
+        endpoint.publish("http://0.0.0.0:9001/ws/usuario");
+        //endpoint.publish("http://localhost:9001/ws/usuario");
         return endpoint;
     }
 
@@ -46,8 +46,8 @@ public class SoapConfig {
     Endpoint destinoTuristicoEndpoint() {
         Endpoint endpoint = Endpoint.create(SOAPBinding.SOAP11HTTP_BINDING, destinoTuristicoWebService);
         endpoint.getBinding().setHandlerChain(Collections.singletonList(soapSecurityHandler));
-        //endpoint.publish("http://0.0.0.0:9001/ws/destino");
-        endpoint.publish("http://localhost:9001/ws/destino");
+        endpoint.publish("http://0.0.0.0:9001/ws/destino");
+        //endpoint.publish("http://localhost:9001/ws/destino");
         return endpoint;
     }
 
@@ -55,8 +55,8 @@ public class SoapConfig {
     Endpoint reservaEndpoint() {
         Endpoint endpoint = Endpoint.create(SOAPBinding.SOAP11HTTP_BINDING, reservaWebService);
         endpoint.getBinding().setHandlerChain(Collections.singletonList(soapSecurityHandler));
-        //endpoint.publish("http://0.0.0.0:9001/ws/reserva");
-        endpoint.publish("http://localhost:9001/ws/reserva");
+        endpoint.publish("http://0.0.0.0:9001/ws/reserva");
+        //endpoint.publish("http://localhost:9001/ws/reserva");
         return endpoint;
     }
 }
