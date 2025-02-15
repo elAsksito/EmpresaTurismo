@@ -4,6 +4,7 @@ import java.util.Set;
 
 import org.springframework.stereotype.Component;
 
+import com.cibertec.turismo.exception.WebServiceException;
 import com.cibertec.turismo.model.Usuario;
 import com.cibertec.turismo.service.interfaces.IAuthService;
 
@@ -37,7 +38,7 @@ public class AuthWebService {
 			for (ConstraintViolation<Usuario> error : errores) {
 				mensajeErrores.append(error.getPropertyPath()).append(": ").append(error.getMessage()).append("; ");
 			}
-			return mensajeErrores.toString();
+			throw new WebServiceException(mensajeErrores.toString(), "400");
 		}
 
 		try {

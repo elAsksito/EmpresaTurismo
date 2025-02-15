@@ -1,5 +1,6 @@
 package com.cibertec.turismo.soap.webservices;
 
+import com.cibertec.turismo.exception.WebServiceException;
 import com.cibertec.turismo.model.DestinoTuristico;
 import com.cibertec.turismo.service.interfaces.IDestinoTuristicoService;
 import com.cibertec.turismo.soap.models.list.ListaDestinos;
@@ -34,7 +35,7 @@ public class DestinoTuristicoWebService {
         
         String errores = validar(destino);
         if (errores != null) {
-            return errores;
+        	throw new WebServiceException(errores, "400");
         }
 
         try {
@@ -64,7 +65,7 @@ public class DestinoTuristicoWebService {
         
         String errores = validar(destino);
         if (errores != null) {
-            return errores;
+        	throw new WebServiceException(errores, "400");
         }
 
         try {

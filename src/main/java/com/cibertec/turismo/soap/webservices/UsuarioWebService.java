@@ -1,5 +1,6 @@
 package com.cibertec.turismo.soap.webservices;
 
+import com.cibertec.turismo.exception.WebServiceException;
 import com.cibertec.turismo.model.Usuario;
 import com.cibertec.turismo.service.interfaces.IUsuarioService;
 import com.cibertec.turismo.soap.models.list.ListaUsuarios;
@@ -31,7 +32,7 @@ public class UsuarioWebService {
     public String registrarUsuario(Usuario usuario) {
     	String errores = validar(usuario);
         if (errores != null) {
-            return errores;
+        	throw new WebServiceException(errores, "400");
         }
         
         try {
@@ -81,7 +82,7 @@ public class UsuarioWebService {
 
         String errores = validar(usuario);
         if (errores != null) {
-            return errores;
+        	throw new WebServiceException(errores, "400");
         }
         
         try {

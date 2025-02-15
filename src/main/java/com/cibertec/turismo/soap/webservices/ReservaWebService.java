@@ -3,6 +3,8 @@ package com.cibertec.turismo.soap.webservices;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+
+import com.cibertec.turismo.exception.WebServiceException;
 import com.cibertec.turismo.model.Reserva;
 import com.cibertec.turismo.model.Usuario;
 import com.cibertec.turismo.service.interfaces.IReservaService;
@@ -33,7 +35,7 @@ public class ReservaWebService {
     public String crearReserva(Reserva reserva) {
     	String errores = validar(reserva);
         if (errores != null) {
-            return errores;
+        	throw new WebServiceException(errores, "400");
         }
         try {
             reservaService.crearReserva(reserva);
@@ -81,7 +83,7 @@ public class ReservaWebService {
         
         String errores = validar(reserva);
         if (errores != null) {
-            return errores;
+        	throw new WebServiceException(errores, "400");
         }
         
         try {
