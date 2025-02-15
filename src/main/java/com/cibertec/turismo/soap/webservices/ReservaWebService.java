@@ -37,7 +37,7 @@ public class ReservaWebService {
     }
 
     @WebMethod
-    public Reserva actualizarEstadoReserva(Long id, String nuevoEstado) {
-        return reservaService.actualizarEstadoReserva(id, nuevoEstado);
+    public Reserva actualizarEstadoReserva(Long id, Reserva reserva) {
+        return reservaService.actualizarReserva(id, reserva);
     }
 }

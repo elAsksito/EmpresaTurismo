@@ -1,6 +1,7 @@
 package com.cibertec.turismo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,9 +23,14 @@ public class AuthController {
 	private AuthServiceImpl authService;
 	
 	@PostMapping("/register")
-    public ResponseEntity<Usuario> registrar(@RequestBody Usuario usuario) {
-        return ResponseEntity.ok(authService.registrar(usuario));
-    }
+	public ResponseEntity<String> registrar(@RequestBody Usuario usuario) {
+	    try {
+	        authService.registrar(usuario);
+	        return ResponseEntity.status(HttpStatus.CREATED).body("Usuario creado correctamente.");
+	    } catch (RuntimeException e) {
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al registrar usuario: " + e.getMessage());
+	    }
+	}
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody AuthRequest request) {

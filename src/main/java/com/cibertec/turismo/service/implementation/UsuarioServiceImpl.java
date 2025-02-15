@@ -1,5 +1,6 @@
 package com.cibertec.turismo.service.implementation;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -37,4 +38,35 @@ public class UsuarioServiceImpl implements IUsuarioService{
 		return usuarioRepository.findByEmail(email);
 	}
 
+	@Override
+    public List<Usuario> listarUsuarios() {
+        return usuarioRepository.findAll();
+    }
+
+	@Override
+    public Usuario actualizarUsuario(Long id, Usuario usuario, String emailSolicitante, boolean esAdmin) {
+        return usuarioRepository.findById(id).map(existingUser -> {
+            if (esAdmin || existingUser.getEmail().equals(emailSolicitante)) {
+                existingUser.setEmail(usuario.getEmail());
+                if (usuario.getPassword() != null && !usuario.getPassword().isEmpty()) {
+                    existingUser.setPassword(passwordEncoder.encode(usuario.getPassword()));
+                }
+                if (esAdmin) {
+                    existingUser.setRole(usuario.getRole());
+                }
+                return usuarioRepository.save(existingUser);
+            } else {
+                throw new RuntimeException("No tienes permisos para actualizar este usuario.");
+            }
+        }).orElseThrow(() -> new RuntimeException("Usuario no encontrado."));
+    }
+
+    @Override
+    public void eliminarUsuario(Long id) {
+        if (usuarioRepository.existsById(id)) {
+            usuarioRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("Usuario no encontrado.");
+        }
+    }
 }

@@ -1,6 +1,5 @@
 package com.cibertec.turismo.service.implementation;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,14 +17,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthServiceImpl implements IAuthService{
 	
-	@Autowired
-	private UsuarioRepository usuarioRepository;
-	
-	@Autowired
-    private PasswordEncoder passwordEncoder;
-	
-	@Autowired
-    private JwtService jwtService;
+	private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     
     @Override
