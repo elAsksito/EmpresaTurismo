@@ -1,5 +1,7 @@
 package com.cibertec.turismo.config.soap;
 
+import java.util.Collections;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -16,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SoapConfig {
 
+	private final SoapSecurityHandler soapSecurityHandler;
     private final AuthWebService authWebService;
     private final UsuarioWebService usuarioWebService;
     private final DestinoTuristicoWebService destinoTuristicoWebService;
@@ -25,28 +28,35 @@ public class SoapConfig {
     @Bean
     Endpoint authEndpoint() {
         Endpoint endpoint = Endpoint.create(SOAPBinding.SOAP11HTTP_BINDING, authWebService);
-        endpoint.publish("http://0.0.0.0:9001/ws/auth");
+        //endpoint.publish("http://0.0.0.0:9001/ws/auth");
+        endpoint.publish("http://localhost:9001/ws/auth");
         return endpoint;
     }
 
     @Bean
     Endpoint usuarioEndpoint() {
         Endpoint endpoint = Endpoint.create(SOAPBinding.SOAP11HTTP_BINDING, usuarioWebService);
-        endpoint.publish("http://0.0.0.0:9001/ws/usuario");
+        endpoint.getBinding().setHandlerChain(Collections.singletonList(soapSecurityHandler));
+        //endpoint.publish("http://0.0.0.0:9001/ws/usuario");
+        endpoint.publish("http://localhost:9001/ws/usuario");
         return endpoint;
     }
 
     @Bean
     Endpoint destinoTuristicoEndpoint() {
         Endpoint endpoint = Endpoint.create(SOAPBinding.SOAP11HTTP_BINDING, destinoTuristicoWebService);
-        endpoint.publish("http://0.0.0.0:9001/ws/destino");
+        endpoint.getBinding().setHandlerChain(Collections.singletonList(soapSecurityHandler));
+        //endpoint.publish("http://0.0.0.0:9001/ws/destino");
+        endpoint.publish("http://localhost:9001/ws/destino");
         return endpoint;
     }
 
     @Bean
     Endpoint reservaEndpoint() {
         Endpoint endpoint = Endpoint.create(SOAPBinding.SOAP11HTTP_BINDING, reservaWebService);
-        endpoint.publish("http://0.0.0.0:9001/ws/reserva");
+        endpoint.getBinding().setHandlerChain(Collections.singletonList(soapSecurityHandler));
+        //endpoint.publish("http://0.0.0.0:9001/ws/reserva");
+        endpoint.publish("http://localhost:9001/ws/reserva");
         return endpoint;
     }
 }

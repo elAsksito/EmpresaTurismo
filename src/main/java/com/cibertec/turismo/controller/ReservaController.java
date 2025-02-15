@@ -1,10 +1,14 @@
 package com.cibertec.turismo.controller;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import com.cibertec.turismo.model.Reserva;
@@ -12,6 +16,7 @@ import com.cibertec.turismo.model.Usuario;
 import com.cibertec.turismo.service.interfaces.IReservaService;
 import com.cibertec.turismo.service.interfaces.IUsuarioService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -24,7 +29,17 @@ public class ReservaController {
     private final IUsuarioService usuarioService;
 
     @PostMapping
-    public ResponseEntity<String> crearReserva(@RequestBody Reserva reserva, Authentication authentication) {
+    public ResponseEntity<?> crearReserva(@Valid @RequestBody Reserva reserva, 
+    		Authentication authentication, BindingResult result) {
+    	
+    	if (result.hasErrors()) {
+	        List<String> errores = result.getFieldErrors()
+	                .stream()
+	                .map(error -> error.getField() + ": " + error.getDefaultMessage())
+	                .collect(Collectors.toList());
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errores);
+	    }
+    	
         Usuario usuario = usuarioService.obtenerUsuarioPorEmail(authentication.getName()).orElseThrow(
             () -> new RuntimeException("Usuario no encontrado")
         );
@@ -45,44 +60,58 @@ public class ReservaController {
     }
 
     @GetMapping
-    public ResponseEntity<String> listarReservas(Authentication authentication) {
+    public ResponseEntity<List<Reserva>> listarReservas(Authentication authentication) {
         Usuario usuario = usuarioService.obtenerUsuarioPorEmail(authentication.getName()).orElseThrow(
                 () -> new RuntimeException("Usuario no encontrado")
         );
 
+        List<Reserva> reservas;
+        
         if (usuario.getRole().equalsIgnoreCase("ADMIN")) {
-            return ResponseEntity.ok("Lista de todas las reservas obtenida correctamente.");
+            reservas = reservaService.listarReservas();
         } else {
-            return ResponseEntity.ok("Lista de reservas del usuario obtenida correctamente.");
+            reservas = reservaService.listarReservasPorUsuario(usuario.getId());
         }
+
+        return ResponseEntity.ok(reservas);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<String> obtenerReservaPorId(@PathVariable Long id, Authentication authentication) {
+    public ResponseEntity<?> obtenerReservaPorId(@PathVariable Long id, Authentication authentication) {
         Usuario usuario = usuarioService.obtenerUsuarioPorEmail(authentication.getName()).orElseThrow(
                 () -> new RuntimeException("Usuario no encontrado")
         );
 
-        Optional<Reserva> reservaOpt = reservaService.obtenerReservaPorId(id);
+        Reserva reserva = reservaService.obtenerReservaPorId(id)
+                .orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
 
-        if (reservaOpt.isPresent()) {
-            Reserva reserva = reservaOpt.get();
-            if (usuario.getRole().equalsIgnoreCase("ADMIN") || reserva.getUsuario().getId().equals(usuario.getId())) {
-                return ResponseEntity.ok("Reserva encontrada exitosamente.");
-            }
+        if (usuario.getRole().equalsIgnoreCase("ADMIN") || reserva.getUsuario().getId().equals(usuario.getId())) {
+            return ResponseEntity.ok(reserva);
         }
+
         return ResponseEntity.status(403).body("Acceso denegado.");
     }
+
     
     @GetMapping("/usuario/{usuarioId}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<String> obtenerReservasPorUsuario(@PathVariable Long usuarioId) {
-        reservaService.listarReservasPorUsuario(usuarioId);
-        return ResponseEntity.ok("Reservas del usuario obtenidas correctamente.");
+    public ResponseEntity<List<Reserva>> obtenerReservasPorUsuario(@PathVariable Long usuarioId) {
+        List<Reserva> reservas = reservaService.listarReservasPorUsuario(usuarioId);
+        return ResponseEntity.ok(reservas);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> actualizarReserva(@PathVariable Long id, @RequestBody Reserva reserva, Authentication authentication) {
+    public ResponseEntity<?> actualizarReserva(@PathVariable Long id, 
+    		@Valid @RequestBody Reserva reserva, Authentication authentication, BindingResult result) {
+    	
+    	if (result.hasErrors()) {
+	        List<String> errores = result.getFieldErrors()
+	                .stream()
+	                .map(error -> error.getField() + ": " + error.getDefaultMessage())
+	                .collect(Collectors.toList());
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errores);
+	    }
+    	
         Usuario usuario = usuarioService.obtenerUsuarioPorEmail(authentication.getName()).orElseThrow(
                 () -> new RuntimeException("Usuario no encontrado")
         );

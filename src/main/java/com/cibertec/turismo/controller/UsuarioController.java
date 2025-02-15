@@ -2,17 +2,20 @@ package com.cibertec.turismo.controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import com.cibertec.turismo.model.Usuario;
 import com.cibertec.turismo.service.interfaces.IUsuarioService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -59,10 +62,21 @@ public class UsuarioController {
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<?> actualizarUsuario(
             @PathVariable Long id,
-            @RequestBody Usuario usuario) {
+            @Valid @RequestBody Usuario usuario, BindingResult result) {
+
+    	if (result.hasErrors()) {
+	        List<String> errores = result.getFieldErrors()
+	                .stream()
+	                .map(error -> error.getField() + ": " + error.getDefaultMessage())
+	                .collect(Collectors.toList());
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errores);
+	    }
+    	
+        if (id == null || id <= 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El ID del usuario no es válido.");
+        }
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         if (authentication == null || authentication.getPrincipal().equals("anonymousUser")) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No estás autenticado.");
         }

@@ -1,6 +1,7 @@
 package com.cibertec.turismo.soap.webservices;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Set;
+
 import org.springframework.stereotype.Component;
 
 import com.cibertec.turismo.model.Usuario;
@@ -9,22 +10,41 @@ import com.cibertec.turismo.service.interfaces.IAuthService;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebService;
 import jakarta.jws.soap.SOAPBinding;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validator;
+import lombok.RequiredArgsConstructor;
 
 @WebService(serviceName = "AuthService")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT)
 @Component
+@RequiredArgsConstructor
 public class AuthWebService {
-	
-	@Autowired
-    private IAuthService authService;
 
-    @WebMethod
-    public String login(String email, String password) {
-        return authService.login(email, password);
-    }
+	private final IAuthService authService;
+	private final Validator validator;
 
-    @WebMethod
-    public Usuario registrar(Usuario usuario) {
-        return authService.registrar(usuario);
-    }
+	@WebMethod
+	public String login(String email, String password) {
+		return authService.login(email, password);
+	}
+
+	@WebMethod
+	public String registrar(Usuario usuario) {
+		Set<ConstraintViolation<Usuario>> errores = validator.validate(usuario);
+
+		if (!errores.isEmpty()) {
+			StringBuilder mensajeErrores = new StringBuilder("Errores de validación: ");
+			for (ConstraintViolation<Usuario> error : errores) {
+				mensajeErrores.append(error.getPropertyPath()).append(": ").append(error.getMessage()).append("; ");
+			}
+			return mensajeErrores.toString();
+		}
+
+		try {
+			authService.registrar(usuario);
+			return "Usuario creado correctamente.";
+		} catch (RuntimeException e) {
+			return "Error al registrar usuario: " + e.getMessage();
+		}
+	}
 }

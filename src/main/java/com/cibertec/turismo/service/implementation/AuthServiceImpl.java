@@ -27,7 +27,7 @@ public class AuthServiceImpl implements IAuthService{
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
         Usuario usuario = usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
-        return jwtService.generateToken(usuario.getEmail());
+        return jwtService.generateToken(usuario.getEmail(), usuario.getRole());
     }
 
     @Override
