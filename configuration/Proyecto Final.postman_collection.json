@@ -607,6 +607,137 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "import-export",
+			"item": [
+				{
+					"name": "exportJson",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <token generado al loguearte>",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:9999/export/json/<entidad>",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9999",
+							"path": [
+								"export",
+								"json",
+								"<entidad>"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "exportXML",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <token generado al loguearte>",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:9999/export/xml/<entidad>",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9999",
+							"path": [
+								"export",
+								"xml",
+								"<entidad>"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "importJson",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <token generado al loguearte>",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"filePath\": \"C:/exports/destinos.json\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9999/import/json/<entidad>",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9999",
+							"path": [
+								"import",
+								"json",
+								"<entidad>"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "importXML",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <token generado al loguearte>",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"filePath\": \"C:/exports/destinos.xml\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9999/import/xml/<entidad>",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9999",
+							"path": [
+								"import",
+								"xml",
+								"<entidad>"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
