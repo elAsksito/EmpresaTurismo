@@ -3,12 +3,14 @@ package com.cibertec.turismo.model;
 import java.time.LocalDate;
 
 import com.cibertec.turismo.config.soap.LocalDateAdapter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlTransient;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,6 +27,8 @@ public class Reserva {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonIgnore
+	@XmlTransient
     private Long id;
 
 	@ManyToOne(fetch = FetchType.EAGER)
