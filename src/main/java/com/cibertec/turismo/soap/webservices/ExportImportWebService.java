@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class ExportImportWebService {
 	
 	private final IExportImportService exportImportService;
-    private final String BASE_PATH = "C:/exports";
+    private final String BASE_PATH = "/app/exports";
 
     @WebMethod
     public String exportJson(@WebParam(name = "entidad") String entidad) {

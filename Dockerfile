@@ -5,6 +5,8 @@ RUN mvn clean package -DskipTests
 
 FROM openjdk:17-jdk-slim
 
+RUN mkdir -p /app/exports
+
 COPY wait-for-it.sh /wait-for-it.sh
 RUN chmod +x /wait-for-it.sh
 

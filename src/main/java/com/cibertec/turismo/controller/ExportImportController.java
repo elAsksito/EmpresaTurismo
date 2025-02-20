@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class ExportImportController {
 	
 	private final IExportImportService exportImportService;
-    private final String BASE_PATH = "C:/exports";
+	private final String BASE_PATH = "/app/exports";
     
     @GetMapping("/export/json/{entidad}")
     public ResponseEntity<String> exportJson(@PathVariable String entidad) {
